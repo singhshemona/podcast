@@ -29,7 +29,7 @@ export const Test = ({ navigation }: any): React.ReactElement => {
       />
 
       <Button
-        title={'Go home!'}
+        title={'Go home page!'}
         // onPress={() => {
         //   navigation.push('Home')
         // }}
