@@ -5,58 +5,35 @@ import axios from 'axios';
 import { config } from '../../config.js';
 
 export const Home = ({ navigation }: any): React.ReactElement => {
-  const movies = [
-    { title: 'Star Wars' },
-    { title: 'Back to the Future' },
-    { title: 'The Matrix' },
-    { title: 'Inception' },
-    { title: 'Interstellar' },
-  ];
-  
   const [value, setValue] = useState('');
-  const [trending, setTrending] = useState('');
-  const [data, setData] = React.useState(movies);
+  const [data, setData] = React.useState([]);
 
   const SearchIcon = (props: any) => (
     <Icon {...props} name='search-outline' fill='#8F9BB3' />
   );
 
   const getPodcastDetails = () => {
-    console.log('hey')
-  }
-
-  useEffect(() => {
-    const options = {
-      url: 'https://listen-api.listennotes.com/api/v2/episodes/02f0123246c944e289ee2bb90804e41b',
+    const getPodcastID = {
+      url: 'https://listen-api.listennotes.com/api/v2/search?q=' + value.replace(' ', '%20') + '&sort_by_date=0&type=episode&offset=0&safe_mode=0',
       method: 'GET',
       headers: { 'X-ListenAPI-Key': config.KEY },
     };
 
-    axios(options)
+    // const getPodcastDetails = {
+    //   url: 'https://listen-api.listennotes.com/api/v2/podcasts/' + podcastID + '?next_episode_pub_date=1479154463000&sort=recent_first',
+    //   method: 'GET',
+    //   headers: { 'X-ListenAPI-Key': config.KEY },
+    // };
+
+    axios(getPodcastID)
       .then(response => {
-        console.log(response.data.image)
-        setTrending(response.data.image)
+        console.log(response.data.results[0].id)
+        setData(response.data.results.map((title) => title.title_original))
       });
-  }, [])
-
-  const filter = (item, query) => item.title.toLowerCase().includes(query.toLowerCase());
-
-  const onSelect = (index) => {
-    setValue(data[index].title);
-  };
-
-  const onChangeText = (query) => {
-    setValue(query);
-    setData(movies.filter(item => filter(item, query)));
-  };
-
-  const renderOption = (item, index) => (
-    <AutocompleteItem
-      key={index}
-      title={item.title}
-      accessoryLeft={SearchIcon}
-    />
-  );
+      // {data.map((item) => {
+      //   <Text>{item}</Text>
+      // })}
+  }
 
   return (
     <View style={styles.container}>
@@ -66,7 +43,7 @@ export const Home = ({ navigation }: any): React.ReactElement => {
           value={value}
           placeholder='What would you like to learn?'
           accessoryRight={SearchIcon}
-          onChangeText={nextValue => setValue(nextValue)}
+          onChangeText={getVal => setValue(getVal)}
         />
         <Button
           style={{ flex: 1 }}
@@ -75,21 +52,7 @@ export const Home = ({ navigation }: any): React.ReactElement => {
           Search
         </Button>
       </Layout>
-
-      <Autocomplete
-        placeholder='Place your Text'
-        value={value}
-        accessoryRight={SearchIcon}
-        onChangeText={onChangeText}
-        onSelect={onSelect}>
-        {data.map(renderOption)}
-      </Autocomplete>
-
-      <Button
-        onPress={() => navigation.navigate('Test')}
-      >
-        Go to test page!
-      </Button>
+      {/* <Text>{data[3]}</Text> */}
       <Text>
         Trending Discussions
       </Text>
@@ -105,6 +68,11 @@ export const Home = ({ navigation }: any): React.ReactElement => {
       <Text>
         You're currently not subscribed to any episodes. Search above to add some!
       </Text>
+      <Button
+        onPress={() => navigation.navigate('Test')}
+      >
+        Go to test page!
+      </Button>
     </View>
   );
 }
