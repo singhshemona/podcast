@@ -7,9 +7,14 @@ import { config } from '../../config.js';
 export const Home = ({ navigation }: any): React.ReactElement => {
   const [value, setValue] = useState('');
   const [data, setData] = React.useState([]);
+  const [search, setSearch] = React.useState(false);
 
-  const SearchIcon = (props: any) => (
+  const SearchIcon = (props) => (
     <Icon {...props} name='search-outline' fill='#8F9BB3' />
+  );
+
+  const CloseIcon = (props) => (
+    <Icon {...props} name='close-outline' fill='#8F9BB3' onClick={() => setSearch(false)} />
   );
 
   const getPodcastDetails = () => {
@@ -36,44 +41,50 @@ export const Home = ({ navigation }: any): React.ReactElement => {
   }
 
   return (
-    <View style={styles.container}>
-      <Layout style={styles.flex}>
-        <Input
-          style={{ flex: 3 }}
-          value={value}
-          placeholder='What would you like to learn?'
-          accessoryRight={SearchIcon}
-          onChangeText={getVal => setValue(getVal)}
-        />
-        <Button
-          style={{ flex: 1 }}
-          onPress={getPodcastDetails}
-        >
-          Search
-        </Button>
-      </Layout>
-      {/* <Text>{data[3]}</Text> */}
-      <Text>
-        Trending Discussions
-      </Text>
-      {/* add some fake data of trending discussions here? */}
-      <Image
-        style={styles.image}
-        // source={{ uri: "'" + trending + "'" }}
-        source={{ uri: 'https://www.reactnative.express/static/logo.png' }}
-      />
-      <Text>
-        Subscribed
-      </Text>
-      <Text>
-        You're currently not subscribed to any episodes. Search above to add some!
-      </Text>
-      <Button
-        onPress={() => navigation.navigate('Test')}
-      >
-        Go to test page!
-      </Button>
-    </View>
+      <View style={styles.container}>
+        <Layout style={styles.flex}>
+          <Input
+            style={{ flex: 3 }}
+            value={value}
+            placeholder='What would you like to learn?'
+            accessoryRight={search ? CloseIcon : SearchIcon}
+            onChangeText={getVal => {setValue(getVal); setSearch(true)}}
+          />
+          <Button
+            style={{ flex: 1 }}
+            onPress={getPodcastDetails}
+          >
+            Search
+          </Button>
+        </Layout>
+   
+        {search ? 
+          <Text>{data[3]}</Text>
+          :
+          <>
+            <Text>
+              Trending Discussions
+            </Text>
+            {/* add some fake data of trending discussions here? */}
+            <Image
+              style={styles.image}
+              // source={{ uri: "'" + trending + "'" }}
+              source={{ uri: 'https://www.reactnative.express/static/logo.png' }}
+            />
+            <Text>
+              Subscribed
+            </Text>
+            <Text>
+              You're currently not subscribed to any episodes. Search above to add some!
+            </Text>
+            <Button
+              onPress={() => navigation.navigate('Test')}
+            >
+              Go to test page!
+            </Button>
+          </>
+        }
+      </View>
   );
 }
 
