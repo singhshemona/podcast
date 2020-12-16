@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 import { StyleSheet, View, Image } from 'react-native';
+import { Link } from '@react-navigation/native';
 import { Icon, Input, Text, Button, Layout, Autocomplete, AutocompleteItem } from '@ui-kitten/components';
 import axios from 'axios';
 import { config } from '../../config.js';
+import { Test } from './Test.js';
 
 export const Home = ({ navigation }: any): React.ReactElement => {
   const [value, setValue] = useState('');
-  const [data, setData] = React.useState([]);
   const [search, setSearch] = React.useState(false);
+  
+  const data = useSelector(state => state.data);
+  const dispatch = useDispatch();
 
   const SearchIcon = (props) => (
     <Icon {...props} name='search-outline' fill='#8F9BB3' />
@@ -24,20 +29,22 @@ export const Home = ({ navigation }: any): React.ReactElement => {
       headers: { 'X-ListenAPI-Key': config.KEY },
     };
 
-    // const getPodcastDetails = {
-    //   url: 'https://listen-api.listennotes.com/api/v2/podcasts/' + podcastID + '?next_episode_pub_date=1479154463000&sort=recent_first',
-    //   method: 'GET',
-    //   headers: { 'X-ListenAPI-Key': config.KEY },
-    // };
-
     axios(getPodcastID)
       .then(response => {
-        console.log(response.data.results[0].id)
-        setData(response.data.results.map((title) => title.title_original))
+        console.log(response.data.results)
+        dispatch({
+          type: 'SEND_DATA',
+          payload: response.data.results
+        })
       });
-      // {data.map((item) => {
-      //   <Text>{item}</Text>
-      // })}
+  }
+
+  const sendPodcastId = (id) => {
+    dispatch({
+      type: 'SET_ID',
+      payload: data[id].id
+    })
+    navigation.navigate('Listen');
   }
 
   return (
@@ -59,7 +66,10 @@ export const Home = ({ navigation }: any): React.ReactElement => {
         </Layout>
    
         {search ? 
-          <Text>{data[3]}</Text>
+          data.length > 0 && 
+            data.map((podcast, i) => 
+              <Button onPress={() => sendPodcastId(i)} key={i}>{podcast.title_original}</Button>
+            )
           :
           <>
             <Text>
