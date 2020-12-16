@@ -8,19 +8,19 @@ export const Listen = ({ navigation }: any): React.ReactElement => {
   const [ audio, setAudio ] = useState('');
   const currentPodcast = useSelector(state => state.currentPodcast);
 
-  // useEffect(() => {
-  //   const getPodcastDetails = {
-  //     url: 'https://listen-api.listennotes.com/api/v2/podcasts/' + podcastID + '?next_episode_pub_date=1479154463000&sort=recent_first',
-  //     method: 'GET',
-  //     headers: { 'X-ListenAPI-Key': config.KEY },
-  //   };
+  useEffect(() => {
+    const getPodcastDetails = {
+      url: 'https://listen-api.listennotes.com/api/v2/episodes/' + currentPodcast,
+      method: 'GET',
+      headers: { 'X-ListenAPI-Key': config.KEY },
+    };
 
-  //   axios(getPodcastDetails)
-  //     .then(response => {
-  //       console.log(response.data.audio)
-  //       setAudio(response.data.audio)
-  //     });
-  // }, [])
+    axios(getPodcastDetails)
+      .then(response => {
+        console.log(response.data.audio)
+        setAudio(response.data.audio)
+      });
+  }, [])
 
   return (
     <View style={styles.container}>
