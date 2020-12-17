@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { StyleSheet, View, Image } from 'react-native';
-import { Link } from '@react-navigation/native';
 import { Icon, Input, Text, Button, Layout, Autocomplete, AutocompleteItem } from '@ui-kitten/components';
 import axios from 'axios';
 import { config } from '../../config.js';
-import { Test } from './Test.js';
 
 export const Home = ({ navigation }: any): React.ReactElement => {
   const [value, setValue] = useState('');
@@ -31,7 +29,6 @@ export const Home = ({ navigation }: any): React.ReactElement => {
 
     axios(getPodcastID)
       .then(response => {
-        console.log(response.data.results)
         dispatch({
           type: 'SEND_DATA',
           payload: response.data.results

@@ -15,7 +15,6 @@ const reducer = (state = house, action) => {
         currentPodcast: action.payload
       })
   }
-
     return state
 }
 
