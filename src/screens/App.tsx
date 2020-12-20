@@ -14,6 +14,7 @@ import * as eva from '@eva-design/eva';
 import { Home } from './Home';
 import { Test } from './Test';
 import { Listen } from './Listen';
+import { Highlights } from './Highlights';
 
 export const App = (): React.ReactElement => {
   const Stack = createStackNavigator();
@@ -28,6 +29,7 @@ export const App = (): React.ReactElement => {
               <Stack.Screen name="Home" component={Home} />
               <Stack.Screen name="Test" component={Test} />
               <Stack.Screen name="Listen" component={Listen} />
+              <Stack.Screen name="Highlights" component={Highlights} />
             </Stack.Navigator>
           </NavigationContainer>
         </Provider>
