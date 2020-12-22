@@ -21,7 +21,7 @@ export const Home = ({ navigation }: any): React.ReactElement => {
   );
 
   const getPodcastDetails = () => {
-    const getPodcastID = {
+    const getPodcastID:{} = {
       url: 'https://listen-api.listennotes.com/api/v2/search?q=' + value.replace(' ', '%20') + '&sort_by_date=0&type=episode&offset=0&safe_mode=0',
       method: 'GET',
       headers: { 'X-ListenAPI-Key': config.KEY },

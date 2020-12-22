@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { Icon, Button, Modal, Card, Input } from '@ui-kitten/components';
 import axios from 'axios';
 import { config } from '../../config.js';
+import { ModalContent } from '../components/molecules/ModalContent';
 
 export const Listen = ({ navigation }: any): React.ReactElement => {
   const [ episodeTitle, setEpisodeTitle ] = useState('');
@@ -16,11 +17,10 @@ export const Listen = ({ navigation }: any): React.ReactElement => {
   const audioRef = useRef(0);
 
   const currentPodcast = useSelector(state => state.currentPodcast);
-  const highlights = useSelector(state => state.highlights);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getPodcastDetails = {
+    const getPodcastDetails:{} = {
       url: 'https://listen-api.listennotes.com/api/v2/episodes/' + currentPodcast,
       method: 'GET',
       headers: { 'X-ListenAPI-Key': config.KEY },
@@ -39,6 +39,7 @@ export const Listen = ({ navigation }: any): React.ReactElement => {
   // console.log(audioRef.current.currentTime);
 
   const saveHighlight = () => {
+    // console.log('saved!')
     dispatch({
       type: 'ADD_HIGHLIGHT',
       payload: value,
@@ -62,23 +63,14 @@ export const Listen = ({ navigation }: any): React.ReactElement => {
         visible={visible}
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setVisible(false)}>
-        <Card disabled={true}>
-          <Input
-            multiline={true}
-            value={value}
-            placeholder='Thoughts on this clip?'
-            onChange={(event: any) => setValue(event.target.value)}
-          />
-
-          <Text>{highlights}</Text>
-
-          <Button onPress={() => setVisible(false)}>
-            Cancel
-          </Button>
-          <Button onPress={() => saveHighlight}>
-            Save highlight
-          </Button>
-        </Card>
+        <ModalContent 
+          val={value}
+          onChange={(event: any) => setValue(event.target.value)} 
+          saveHighlight={saveHighlight}
+        />
+        <Button onPress={() => setVisible(false)}>
+          Cancel
+        </Button>
       </Modal>
     </View>
   );

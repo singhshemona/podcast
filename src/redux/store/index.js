@@ -17,7 +17,7 @@ const reducer = (state = house, action) => {
       })
     } else if (action.type === 'ADD_HIGHLIGHT') {
       return Object.assign({}, state, {
-        highlights: highlights.concat(action.payload)
+        highlights: state.highlights.concat(action.payload)
       })
   }
     return state

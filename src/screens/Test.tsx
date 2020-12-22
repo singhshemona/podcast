@@ -7,7 +7,7 @@ export const Test = ({ navigation }: any): React.ReactElement => {
   const [ audio, setAudio ] = useState('');
   
   useEffect(() => {
-    const options = {
+    const options:{} = {
       url: 'https://listen-api.listennotes.com/api/v2/episodes/02f0123246c944e289ee2bb90804e41b',
       method: 'GET',
       headers: { 'X-ListenAPI-Key': config.KEY },
