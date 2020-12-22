@@ -89,6 +89,11 @@ export const Home = ({ navigation }: any): React.ReactElement => {
             >
               Go to test page!
             </Button>
+            <Button
+              onPress={() => navigation.navigate('Highlights')}
+            >
+              View all highlights!
+            </Button>
           </>
         }
       </View>
