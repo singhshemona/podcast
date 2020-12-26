@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Provider } from 'react-redux';
-import store from '../redux/store/index';
+import { store } from '../redux/store/index';
 
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
@@ -21,19 +21,19 @@ export const App = (): React.ReactElement => {
 
   return (
     <>
-      <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider {...eva} theme={eva.light}>
-        <Provider store={store}>
-          <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen name="Home" component={Home} />
-              <Stack.Screen name="Test" component={Test} />
-              <Stack.Screen name="Listen" component={Listen} />
-              <Stack.Screen name="Highlights" component={Highlights} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </Provider>
-      </ApplicationProvider>
+      <Provider store={store}>
+        <IconRegistry icons={EvaIconsPack} />
+        <ApplicationProvider {...eva} theme={eva.light}>
+            <NavigationContainer>
+              <Stack.Navigator>
+                <Stack.Screen name="Home" component={Home} />
+                <Stack.Screen name="Test" component={Test} />
+                <Stack.Screen name="Listen" component={Listen} />
+                <Stack.Screen name="Highlights" component={Highlights} />
+              </Stack.Navigator>
+            </NavigationContainer>
+        </ApplicationProvider>
+      </Provider>
     </>
   );
 }

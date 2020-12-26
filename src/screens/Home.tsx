@@ -6,11 +6,12 @@ import axios from 'axios';
 import { config } from '../../config.js';
 
 export const Home = ({ navigation }: any): React.ReactElement => {
-  const [value, setValue] = useState('');
-  const [search, setSearch] = React.useState(false);
+  const [value, setValue] = useState('')
+  const [search, setSearch] = useState(false)
+  const [title, setData] = useState([])
+  const [ id, setId ] = useState([])
   
-  const data = useSelector(state => state.data);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const SearchIcon = (props) => (
     <Icon {...props} name='search-outline' fill='#8F9BB3' />
@@ -29,17 +30,15 @@ export const Home = ({ navigation }: any): React.ReactElement => {
 
     axios(getPodcastID)
       .then(response => {
-        dispatch({
-          type: 'SEND_DATA',
-          payload: response.data.results
-        })
+        setId(response.data.results.map(podcast => podcast.id))
+        setData(response.data.results.map(podcast => podcast.title_original))
       });
   }
 
   const sendPodcastId = (id) => {
     dispatch({
-      type: 'SET_ID',
-      payload: data[id].id
+      type: 'SET_PODCAST_ID',
+      payload: id
     })
     navigation.navigate('Listen');
   }
@@ -61,11 +60,10 @@ export const Home = ({ navigation }: any): React.ReactElement => {
             Search
           </Button>
         </Layout>
-   
         {search ? 
-          data.length > 0 && 
-            data.map((podcast, i) => 
-              <Button onPress={() => sendPodcastId(i)} key={i}>{podcast.title_original}</Button>
+          title.length > 0 && 
+            title.map((name, i) => 
+              <Button onPress={() => sendPodcastId(id[i])} key={i}>{name}</Button>
             )
           :
           <>

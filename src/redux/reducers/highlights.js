@@ -33,6 +33,7 @@ export default (state = initialState, action) => {
         ...state,
         allHighlights: state.allHighlights.concat(newHighlight),
       };
+    default: 
+      return state 
   }
-  return state;
 };

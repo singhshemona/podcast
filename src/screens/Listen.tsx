@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { Icon, Button, Modal, Card, Input } from '@ui-kitten/components';
-import axios from 'axios';
-import { config } from '../../config.js';
-import { ModalContent } from '../components/molecules/ModalContent';
+import React, { useEffect, useState, useRef } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { StyleSheet, Text, View, Image } from 'react-native'
+import { Icon, Button, Modal, Card, Input } from '@ui-kitten/components'
+import axios from 'axios'
+import { config } from '../../config.js'
+import { ModalContent } from '../components/molecules/ModalContent'
+import { rootReducer } from '../redux/store/index'
 
 export const Listen = ({ navigation }: any): React.ReactElement => {
   const [ episodeTitle, setEpisodeTitle ] = useState('');
@@ -16,7 +17,7 @@ export const Listen = ({ navigation }: any): React.ReactElement => {
 
   const audioRef = useRef(0);
 
-  const currentPodcast = useSelector(state => state.currentPodcast);
+  const currentPodcast = useSelector((state:ReturnType<typeof rootReducer>) => state.podcast.currentPodcastId);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -41,7 +42,7 @@ export const Listen = ({ navigation }: any): React.ReactElement => {
   const saveHighlight = () => {
     // console.log('saved!')
     dispatch({
-      type: 'ADD_HIGHLIGHT',
+      type: 'CREATE_HIGHLIGHT',
       payload: value,
     });
     setVisible(false)
