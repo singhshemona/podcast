@@ -1,23 +1,31 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { Icon, Button, Modal, Card, Input } from '@ui-kitten/components';
+import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { Button, Card, Input, Text } from '@ui-kitten/components'
 
 type Props = {
-  val?: any;
-  saveHighlight?: any;
-  onChange?: any;
+  time: number;
 };
 
-export const ModalContent = ({ val, saveHighlight, onChange }: Props): React.ReactElement => {
+export const ModalContent = ({ time }: Props): React.ReactElement => {
+  const [ value, setValue ] = useState('');
+  const dispatch = useDispatch()
 
+  const saveHighlight = () => {
+    console.log(value)
+    // dispatch({
+    //   type: 'CREATE_HIGHLIGHT',
+    //   payload: value,
+    // });
+  }
+  
   return (
     <Card disabled={true}>
+      <Text>marking at: {time}</Text>
       <Input
         multiline={true}
-        value={val}
+        value={value}
         placeholder='Thoughts on this clip?'
-        onChange={onChange}
+        onChangeText={getVal => setValue(getVal)} 
       />
       <Button onPress={saveHighlight}>
         Save highlight

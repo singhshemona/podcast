@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { StyleSheet, Text, View, Image } from 'react-native'
 import { Icon, Button, Modal, Card, Input } from '@ui-kitten/components'
 import axios from 'axios'
@@ -13,12 +13,10 @@ export const Listen = ({ navigation }: any): React.ReactElement => {
   const [ showTitle, setShowTitle ] = useState('');
   const [ audio, setAudio ] = useState('');
   const [ visible, setVisible ] = React.useState(false);
-  const [ value, setValue ] = useState('');
 
   const audioRef = useRef(0);
 
   const currentPodcast = useSelector((state:ReturnType<typeof rootReducer>) => state.podcast.currentPodcastId);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const getPodcastDetails:{} = {
@@ -37,17 +35,6 @@ export const Listen = ({ navigation }: any): React.ReactElement => {
       });
   }, [])
 
-  // console.log(audioRef.current.currentTime);
-
-  const saveHighlight = () => {
-    // console.log('saved!')
-    dispatch({
-      type: 'CREATE_HIGHLIGHT',
-      payload: value,
-    });
-    setVisible(false)
-  }
-
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={{ uri: image }} />
@@ -64,11 +51,8 @@ export const Listen = ({ navigation }: any): React.ReactElement => {
         visible={visible}
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setVisible(false)}>
-        <ModalContent 
-          val={value}
-          onChange={(event: any) => setValue(event.target.value)} 
-          saveHighlight={saveHighlight}
-        />
+        {/* <ModalContent time={audioRef.current.currentTime} /> */}
+        <ModalContent time={4} />
         <Button onPress={() => setVisible(false)}>
           Cancel
         </Button>
