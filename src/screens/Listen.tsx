@@ -41,6 +41,8 @@ export const Listen = ({ navigation }: any): React.ReactElement => {
       <Text>{episodeTitle}</Text>
       <Text>{showTitle}</Text>
       <Icon style={styles.icon} name='heart-outline' fill='#8F9BB3' />
+
+      {/* can't use audio tag for mobile - find react native equivalent */}
       <audio
         ref={audioRef}
         controls

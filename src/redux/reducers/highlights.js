@@ -24,10 +24,10 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case CREATE_HIGHLIGHT:
       const newHighlight = new Highlight(
-        action.highlightData.id,
-        action.highlightData.note,
-        action.highlightData.podcastID,
-        action.highlightData.timestamp,
+        action.id,
+        action.note,
+        action.podcastID,
+        action.timestamp,
       );
       return {
         ...state,
