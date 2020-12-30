@@ -1,18 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import { Icon, Input, Text, Button, Layout, Autocomplete, AutocompleteItem } from '@ui-kitten/components';
+import { db } from '../../config.js';
 
 export const Highlights = ({ navigation }: any): React.ReactElement => {
   
-  const [ highlights, setHighlights ] = useState([]);
+  const [ highlights, setHighlights ] = useState({});
 
   useEffect(() => {
+    db.ref('/highlights').on('value', (querySnapShot:any) => {
+      let data = querySnapShot.val() ? querySnapShot.val() : {};
+      let allData = {...data};
+      setHighlights(allData)
 
+      // console.log(allData)
+    });
   }, [])
 
   return (
       <View style={styles.container}>
-        {highlights}
+
+        {/* {Object.values(highlights).map((highlight:any, id:number) => (
+          highlight.id.value
+        ))} */}
+
         <Button
           onPress={() => navigation.navigate('Listen')}
         >

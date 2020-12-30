@@ -54,7 +54,7 @@ export const Listen = ({ navigation }: any): React.ReactElement => {
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setVisible(false)}>
         {/* <ModalContent time={audioRef.current.currentTime} /> */}
-        <ModalContent time={4} />
+        <ModalContent podcastID={currentPodcast} time={4} />
         <Button onPress={() => setVisible(false)}>
           Cancel
         </Button>

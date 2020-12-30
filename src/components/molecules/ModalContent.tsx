@@ -1,36 +1,23 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Button, Card, Input, Text } from '@ui-kitten/components'
-import { db } from '../../../config.js';
+import { db } from '../../../config.js'
 
 type Props = {
-  time: number;
-};
+  time: number
+  podcastID: number
+}
 
-export const ModalContent = ({ time }: Props): React.ReactElement => {
-  const [ value, setValue ] = useState('');
+export const ModalContent = ({ time, podcastID }: Props): React.ReactElement => {
+  const [ val, setValue ] = useState('');
   const dispatch = useDispatch()
 
   const saveHighlight = () => {
-    // console.log(value)
-    // const payloadObj = {
-    //   id: 1,
-    //   note: value,
-    //   podcastID: 34289,
-    //   timestamp: time,
-    // }
-    // dispatch({
-    //   type: 'CREATE_HIGHLIGHT',
-    //   payload: payloadObj,
-    // });
-    db.ref('/').on('value', (querySnapShot:any) => {
-      let data = querySnapShot.val() ? querySnapShot.val() : {};
-      let todoItems = {...data};
-      console.log(todoItems)
-      // this.setState({
-      //   todos: todoItems,
-      // });
-    });
+    db.ref('/highlights').push({ 
+      note: val,
+      podcastID: podcastID,
+      timestamp: time,
+     });
   }
 
   return (
@@ -38,7 +25,7 @@ export const ModalContent = ({ time }: Props): React.ReactElement => {
       <Text>marking at: {time}</Text>
       <Input
         multiline={true}
-        value={value}
+        value={val}
         placeholder='Thoughts on this clip?'
         onChangeText={getVal => setValue(getVal)} 
       />
