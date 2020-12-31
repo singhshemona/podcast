@@ -12,17 +12,18 @@ export const Highlights = ({ navigation }: any): React.ReactElement => {
       let data = querySnapShot.val() ? querySnapShot.val() : {};
       let allData = {...data};
       setHighlights(allData)
-
-      // console.log(allData)
     });
   }, [])
 
   return (
       <View style={styles.container}>
-
-        {/* {Object.values(highlights).map((highlight:any, id:number) => (
-          highlight.id.value
-        ))} */}
+        {Object.values(highlights).map((highlight:any, id:number) => 
+          <View key={id}>
+            <Text>Name of Show / Episode</Text>
+            <Text>{highlight.note}</Text>
+            <Text>{highlight.timestamp}</Text>
+          </View>
+        )}
 
         <Button
           onPress={() => navigation.navigate('Listen')}
