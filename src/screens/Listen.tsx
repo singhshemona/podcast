@@ -12,7 +12,7 @@ export const Listen = ({ navigation }: any): React.ReactElement => {
   const [ image, setImage ] = useState('');
   const [ showTitle, setShowTitle ] = useState('');
   const [ audio, setAudio ] = useState('');
-  const [ visible, setVisible ] = React.useState(false);
+  const [ visible, setVisible ] = useState(false);
 
   const audioRef = useRef(0);
 
@@ -42,12 +42,19 @@ export const Listen = ({ navigation }: any): React.ReactElement => {
       <Text>{showTitle}</Text>
       <Icon style={styles.icon} name='heart-outline' fill='#8F9BB3' />
 
+
+
       {/* can't use audio tag for mobile - find react native equivalent */}
-      <audio
+      {/* <audio
         ref={audioRef}
         controls
         src={audio}
-      />
+      /> */}
+
+      <Button onPress={() => RNTrackPlayer.play()}>Play Sound</Button>
+
+
+
       <Button onPress={() => setVisible(true)}>Make Note</Button>
       <Modal
         visible={visible}
